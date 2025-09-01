@@ -1,0 +1,152 @@
+Employee Attrition Prediction System
+
+By: Prathamesh Arvind Kodag
+Date: September 2, 2025
+
+Abstract
+
+Employee attrition is a significant challenge for organizations, leading to increased recruitment costs and loss of productivity. This project builds a machine learning system to predict whether an employee is likely to leave a company, using the IBM HR Analytics Employee Attrition dataset. The system leverages Python, scikit-learn, and Streamlit to enable HR teams to proactively identify at-risk employees and design retention strategies.
+
+1. Introduction
+
+Employee turnover can severely impact organizational performance. Early identification of potential attrition helps HR teams take corrective actions. This project focuses on predicting employee attrition using historical HR data and provides insights into the key factors driving attrition.
+
+Objectives:
+
+Predict employee attrition using machine learning.
+
+Understand the main factors influencing attrition.
+
+Deploy an interactive tool for HR teams.
+
+2. Dataset Description
+
+Source: IBM HR Analytics Employee Attrition dataset
+
+Rows: 1470
+
+Features: 35 (26 numeric, 9 categorical)
+
+Target Variable: Attrition (Yes/No → encoded as 1/0)
+
+Key features: Age, Job Role, Marital Status, Overtime, Job Satisfaction, Work-Life Balance, Years at Company, etc.
+
+
+3. Methodology
+
+The workflow involves:
+
+Data Exploration & Preprocessing
+
+Handling missing values
+
+Encoding categorical variables
+
+Feature scaling and selection
+
+Placeholder for EDA plots:
+
+Model Training
+
+Baseline models: Logistic Regression, Random Forest
+
+Hyperparameter tuning for optimal performance
+
+Evaluation metrics: Accuracy, Recall, ROC-AUC
+
+Placeholder for model performance chart:
+
+Figure 4: Model comparison (Accuracy, Recall, ROC-AUC)
+
+Deployment
+
+Streamlit app for real-time prediction
+
+Input: Employee features
+
+Output: Attrition probability and explanation
+
+4. Implementation Details
+
+Tools & Libraries: Python, scikit-learn, pandas, numpy, matplotlib, seaborn, Streamlit
+Project Structure:
+
+app/                      # Streamlit UI
+data/                     # Raw & processed datasets
+models/                   # Saved models & feature manifest
+notebooks/                # EDA, training, tuning notebooks
+.gitignore                # Ignore unnecessary files
+requirements.txt          # Dependencies
+README.md                 # Project description
+
+
+Key Scripts / Notebooks:
+
+01_data_snapshot.ipynb → Dataset overview
+
+02_eda.ipynb → Exploratory Data Analysis
+
+03_feature_engineering.ipynb → Cleaning & encoding
+
+04_model_training_baseline_models.ipynb → Baseline model training
+
+05_model_tuning_and_insights.ipynb → Hyperparameter tuning & explainability
+
+5. Model Performance & Results
+Model	Accuracy	Recall (Yes)	ROC-AUC
+Logistic Regression	0.86	0.34	0.81
+Random Forest	0.84	0.09	0.78
+
+Final Selected Model: Logistic Regression (tuned)
+
+Placeholder for ROC curve / confusion matrix:
+
+Figure 5: ROC Curve for Logistic Regression
+
+Figure 6: Confusion Matrix
+
+6. Key Insights
+
+Younger employees with shorter tenure are more likely to leave.
+
+Overtime is the strongest predictor of attrition (30% vs 10%).
+
+JobRole impacts attrition: Sales Representatives (~40%) vs Research Directors (~2.5%).
+
+Single employees are more likely to leave than married employees.
+
+High job satisfaction and good work-life balance reduce attrition.
+
+Placeholder for feature importance plot:
+
+Figure 7: Feature importance from Logistic Regression
+
+7. Conclusion & Future Work
+
+This system enables HR teams to predict attrition and understand its driving factors. The project highlights the importance of work-life balance, overtime, and job role in employee retention.
+
+Future Enhancements:
+
+Batch predictions via uploaded CSV files.
+
+Production deployment with FastAPI + Docker.
+
+Use SMOTE or class weights to improve recall on the minority class.
+
+8. References
+
+IBM HR Analytics Employee Attrition & Performance Dataset: Kaggle
+
+scikit-learn Documentation: https://scikit-learn.org/
+
+Streamlit Documentation: https://docs.streamlit.io/
+
+✅ Deliverables:
+
+data/processed/cleaned.csv → Processed data
+
+models/attrition_model.joblib → Trained model
+
+models/feature_manifest.json → Feature metadata
+
+app/Streamlit_UI_app.py → Interactive prediction UI

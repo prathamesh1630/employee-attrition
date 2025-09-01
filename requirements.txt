@@ -1,0 +1,9 @@
+pandas
+numpy==2.2.1
+scikit-learn
+matplotlib
+seaborn
+streamlit
+pickle-mixin
+joblib
+shap

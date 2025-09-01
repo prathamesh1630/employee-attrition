@@ -1,0 +1,29 @@
+{
+  "features": [
+    "Age",
+    "DistanceFromHome",
+    "MonthlyIncome",
+    "TotalWorkingYears",
+    "YearsAtCompany",
+    "JobSatisfaction",
+    "EnvironmentSatisfaction",
+    "WorkLifeBalance",
+    "OverTime_encoded",
+    "Gender_encoded",
+    "MaritalStatus_Divorced",
+    "MaritalStatus_Married",
+    "MaritalStatus_Single"
+  ],
+  "feature_set": "small",
+  "numeric_scaled": [
+    "Age",
+    "DistanceFromHome",
+    "MonthlyIncome",
+    "TotalWorkingYears",
+    "YearsAtCompany",
+    "JobSatisfaction",
+    "EnvironmentSatisfaction",
+    "WorkLifeBalance"
+  ],
+  "model_name": "Random Forest"
+}

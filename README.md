@@ -1,100 +1,170 @@
-🏢 Employee Attrition Prediction System
+# Invoice Data Extraction System
 
-🚀 A machine learning project to predict whether an employee is likely to leave the company, using the IBM HR Analytics Employee Attrition dataset.
-Built with Python, scikit-learn, and Streamlit.
+A Python-based invoice processing application that extracts structured information from invoice images using OpenCV-based image preprocessing, Tesseract OCR, and regular-expression-based parsing, and stores the extracted records in MySQL.
 
-📂 Project Structure
-├── app/                      # Streamlit app for prediction UI
-├── data/                     # Raw & processed datasets
-├── models/                   # Saved models & feature manifest
-├── notebooks/                # Jupyter notebooks for EDA, training & tuning
-│   └── src/                  # Helper scripts (feature list, utils, etc.)
-├── .gitignore                # Ignore unnecessary files in Git
-├── requirements.txt          # Project dependencies
-└── README.md                 # Project description
+## Overview
 
-📊 Dataset
+The system automates the extraction of important invoice information from uploaded invoice images.
 
-Source: IBM HR Analytics Employee Attrition dataset
+The processing pipeline is:
 
-Rows: 1470
+Invoice Image
+↓
+OpenCV Image Preprocessing
+↓
+Tesseract OCR
+↓
+Text Extraction
+↓
+Regex-based Field Extraction
+↓
+Validation
+↓
+MySQL Storage
 
-Features: 35 (26 numeric, 9 categorical)
+The system extracts the following fields:
 
-Target: Attrition (Yes/No → encoded as 1/0)
+- Invoice Number
+- Invoice Date
+- Vendor Name
+- Total Amount
 
-⚙️ Installation
+## Features
 
-Clone the repository and install dependencies:
+- Upload invoice images through a Flask web interface
+- Image preprocessing using OpenCV
+- OCR-based text extraction using Tesseract
+- Regex-based extraction of invoice fields
+- Support for multiple invoice field-label patterns
+- Basic validation of extracted values
+- Store extracted invoice data in MySQL
+- Display extracted invoice information through an HTML interface
 
-git clone https://github.com/your-repo/employee-attrition.git
-cd employee-attrition
-pip install -r requirements.txt
+## Technologies Used
 
-🚀 Usage
-1. Data Exploration & Training
+- Python
+- Flask
+- OpenCV
+- Tesseract OCR
+- Pytesseract
+- Regular Expressions
+- MySQL
+- HTML
+- CSS
 
-Run the notebooks inside the notebooks/ folder:
+## Image Processing Pipeline
 
-01_data_snapshot.ipynb → Load & preview dataset
+Invoice images can contain noise, low contrast, small text, or inconsistent backgrounds.
 
-02_eda.ipynb → Exploratory Data Analysis
+To improve the OCR input, OpenCV is used for preprocessing:
 
-03_feature_engineering.ipynb → Cleaning & encoding
+1. Read the invoice image
+2. Resize the image
+3. Convert the image to grayscale
+4. Reduce image noise
+5. Apply thresholding to improve text/background separation
+6. Apply morphological processing
+7. Pass the processed image to Tesseract OCR
 
-04_model_training_baseline_models.ipynb → Train baseline models
+This preprocessing is performed before OCR rather than directly passing the original image to Tesseract.
 
-05_model_tuning_and_insights.ipynb → Hyperparameter tuning + explainability
+## Data Extraction
 
-2. Streamlit App (Deployment UI)
+The extracted OCR text is processed using regular expressions.
 
-Run the app locally:
+### Invoice Number
 
-streamlit run app/Streamlit_UI_app.py
+The parser supports patterns such as:
 
-📈 Model Performance
-Model	Accuracy	Recall (Yes)	ROC-AUC
-Logistic Regression	0.86	0.34	0.81
-Random Forest	0.84	0.09	0.78
+- Invoice Number
+- Invoice No
+- Invoice #
 
-✅ Final Selected Model: Logistic Regression (tuned)
+### Invoice Date
 
-🔍 Key Insights
+The parser supports patterns such as:
 
-Younger employees & short tenure → higher attrition risk
+- Invoice Date
+- Issue Date
+- Date
 
-Overtime → strongest predictor of attrition (30% vs 10%)
+### Total Amount
 
-JobRole: Sales Representatives (~40% attrition) vs Research Directors (~2.5%)
+The parser supports patterns such as:
 
-Marital Status: Singles more likely to leave
+- Total Amount
+- Grand Total
+- Amount Due
 
-Work-life balance & Job Satisfaction reduce attrition
+### Vendor Name
 
-📦 Deliverables
+The parser searches the initial lines of the OCR output for company-related keywords such as:
 
-✅ Processed Data → data/processed/cleaned.csv
+- Pvt
+- Ltd
+- LLP
+- Private
+- Technologies
+- Solutions
+- Corporation
+- Inc
 
-✅ Models → models/attrition_model.joblib
+If a matching company name is not found, the parser falls back to the first available non-empty line.
 
-✅ Feature Manifest → models/feature_manifest.json
+## Challenges and Solutions
 
-✅ Streamlit App → Interactive UI for predictions
+### 1. Inconsistent Image Quality
 
-🎯 Business Value
+Invoice images may contain noise, uneven backgrounds, low contrast, or small text.
 
-This system enables HR teams to:
+**Solution:**  
+OpenCV preprocessing is applied before OCR using grayscale conversion, resizing, noise reduction, thresholding, and morphological operations.
 
-Predict employee turnover risk early.
+### 2. OCR Output Inconsistency
 
-Understand why employees might leave (explainability).
+OCR output can vary depending on image quality and invoice formatting.
 
-Design retention strategies targeting overtime, job role, and satisfaction.
+**Solution:**  
+Regex-based parsing is used to identify required fields from the OCR text instead of relying on one exact text format.
 
-📌 Next Steps
+### 3. Different Invoice Field Labels
 
-Add batch predictions from uploaded CSV files.
+Different invoices may use different labels for the same information.
 
-Deploy with FastAPI + Docker for production.
+For example:
 
-Try SMOTE / class weights for improved recall on minority class.
+- Invoice Number
+- Invoice No
+- Invoice #
+
+**Solution:**  
+Multiple regular-expression patterns are used for each supported field.
+
+### 4. Structured Data Storage
+
+Raw OCR output is unstructured and difficult to use directly.
+
+**Solution:**  
+The extracted fields are converted into structured records and stored in MySQL.
+
+## Project Structure
+
+```text
+Invoice-Data-Extraction-System/
+│
+├── app.py
+├── db.py
+├── requirements.txt
+│
+├── src/
+│   ├── ocr_test.py
+│   └── invoice_parse.py
+│
+├── templates/
+│   └── index.html
+│
+├── data/
+│   └── sample_data/
+│
+└── test/
+    └── temp.py
